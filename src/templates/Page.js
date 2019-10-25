@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql, Link } from "gatsby"
 import logo from '../images/ss-logo.png';
-import MainNav from '../components/mainNav';
+import MainNav from '../components/MainNav';
 
 import "../scss/app.scss"
 

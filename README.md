@@ -11,22 +11,25 @@ This starter can be used for sites that source their data primarily from [Silver
 * [gatsby-source-silverstripe](https://github.com/silverstripe/gatsby-source-silverstripe)
 * [silverstripe-gatsby-helpers](https://github.com/silverstripe/silverstripe-gatsby-helpers)
 
-
 ### Getting started
 
 You will need to install the following package on your Silverstripe site to expose your data to Gatsby:
 
 `$ composer require silverstripe/silverstripe-gatsby`
+`$ composer require sminnee/silverstripe-apikey`
 
 Once that is installed, ensure the `__gatsby/graphql` endpoing is working on your Silverstripe site.
+Generate an API key with ADMIN permissions to grab the site tree
 
 Now, edit the `gatsby-config.js` file, and add the host of your Silverstripe backend to the `options.host` node in the plugin config.
+
 ```js
     {
-    	resolve: `gatsby-source-silverstripe`,
-    	options: {
-    		host: `http://my-silverstripe-cms.local`
-    	}
+        resolve: `gatsby-source-silverstripe`,
+        options: {
+            host: `http://my-silverstripe-cms.local`,
+            api_key: `SECRETAPIKEYSTRING`
+        }
     },
 ```
 
@@ -34,17 +37,6 @@ Now, run `gatsby develop`. When the build is complete, you should have your enti
 in a primitive template.
 
 <img src="https://user-images.githubusercontent.com/654636/67168179-2d5fb300-f3fe-11e9-9b25-afdf544a1b59.png">
-
-#### Error: SiteConfig not found?
-
-This starter relies on `SiteConfig` to provide some basic information. By default, `SiteConfig` has a `canView()` that returns false for unauthenticated users, meaning it won't be present in your schema.
-
-The `gatsby-source-silverstripe` plugin will support token-based auth in the future, but until then, you probably want to turn off `filter_can_view` in your Silverstripe site:
-
-```yaml
-SilverStripe\Gatsby\GraphQL\Types\SyncResultTypeCreator:
-  filter_can_view: false
-```
 
 ## Features
 
@@ -62,18 +54,18 @@ By default, a `templates/Layout/Page.js` is provided, which should resolve all y
 
 Template selection works the same way as Silverstripe.
 
-#### Example 
+#### Example
 
 **Template inventory**:
 
-```
+```plain
 src/
   templates/
     Page.js
     Layout/
       NewsPage.js
       Page.js
-```      
+```
 
 * `NewsPage extends Page` => `src/templates/Layout/NewsPage.js` (match)
 * `ContactPage extends Page` => `src/templates/Layout/Page.js` (resolves to parent class)
@@ -190,6 +182,7 @@ const MainNav = () => {
 ```
 
 ### Form Example (Formik)
+
 ```js
 import React from 'react';
 import { graphql } from 'gatsby';
@@ -234,18 +227,18 @@ const MyFormPage = ({ data: { silverStripeForm } }) => {
                 <fieldset>
                 {fields.map(renderField)}
                 {actions.length > 0 &&
-                	<div className="btn-toolbar">
+                    <div className="btn-toolbar">
                         {actions.map(action => (
                             <button key={action.formFieldID} type="submit" name={action.name} id={action.formFieldID}>
                                 {action.title}
                             </button>
                         ))}
-                    </div>        
+                    </div>
                 }
                 </fieldset>
             </Form>
         )}
-        </Formik>      
+        </Formik>
     </div>
     );
 };
@@ -271,16 +264,14 @@ export const pageQuery = graphql`
                     value
                 }
             }
-        }        
+        }
     }
 `;
 
 export default MyFormPage;
 ```
 
-
 For more information, see the [silverstripe-gatsby-helpers](https://github.com/silverstripe/silverstripe-gatsby-helpers) package.
-
 
 ## Magic
 

@@ -33,7 +33,8 @@ module.exports = {
     {
     	resolve: `gatsby-source-silverstripe`,
     	options: {
-    		host: ``
+        host: `http://my-silverstripe-cms.local`,
+        api_key: `SECRETAPIKEYSTRING`
     	}
     },
     {
